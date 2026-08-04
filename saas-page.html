@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowSync — SaaS Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #020208;
+            --dark: #06060f;
+            --dark2: #0c0c1d;
+            --dark3: #111128;
+            --blue: #4f46e5;
+            --blue-bright: #6366f1;
+            --cyan: #06b6d4;
+            --white: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #cbd5e1;
+            --border: rgba(255,255,255,0.07);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ══════════════════════════════
+           NAVBAR
+        ══════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2,2,8,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--white); }
+
+        .nav-cta {
+            background: var(--blue);
+            color: white !important;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 600 !important;
+            font-size: 14px;
+            transition: all 0.3s !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--blue-bright) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(79,70,229,0.4) !important;
+        }
+
+        /* ══════════════════════════════
+           HERO
+        ══════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 130px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            top: -100px;
+            left: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 3s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: #8b5cf6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(79,70,229,0.12);
+            border: 1px solid rgba(79,70,229,0.35);
+            color: #a5b4fc;
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 35px;
+            animation: fadeUp 0.8s ease;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--cyan);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero h1 {
+            font-size: 76px;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 25px;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--blue-bright) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 45px;
+            font-weight: 400;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeUp 1.1s ease;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 70px;
+            animation: fadeUp 1.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue), var(--blue-bright));
+            color: white;
+            padding: 15px 32px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(79,70,229,0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(79,70,229,0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: var(--white);
+            padding: 15px 32px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        /* Hero image */
+        .hero-image {
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 1.4s ease;
+        }
+
+        .dashboard-img {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(79,70,229,0.15);
+        }
+
+        .img-glow {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(ellipse, rgba(79,70,229,0.2) 0%, transparent 70%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        /* ══════════════════════════════
+           LOGOS / TRUSTED BY
+        ══════════════════════════════ */
+        .trusted {
+            padding: 50px 80px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            background: var(--dark);
+        }
+
+        .trusted p {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            opacity: 0.4;
+        }
+
+        .logo-item {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        /* ══════════════════════════════
+           FEATURES
+        ══════════════════════════════ */
+        .features {
+            padding: 120px 80px;
+            background: var(--black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: rgba(79,70,229,0.12);
+            border: 1px solid rgba(79,70,229,0.3);
+            color: #a5b4fc;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 17px;
+            color: var(--gray);
+            font-weight: 400;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--dark2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blue), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(79,70,229,0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(79,70,229,0.15);
+            border: 1px solid rgba(79,70,229,0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* ══════════════════════════════
+           HOW IT WORKS
+        ══════════════════════════════ */
+        .how {
+            padding: 120px 80px;
+            background: var(--dark);
+        }
+
+        .how-inner {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .how-text { flex: 1; min-width: 280px; }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        .how-image {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .how-img {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        /* ══════════════════════════════
+           STATS
+        ══════════════════════════════ */
+        .stats {
+            padding: 80px;
+            background: linear-gradient(135deg, rgba(79,70,229,0.08) 0%, rgba(6,182,212,0.05) 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .stat {
+            text-align: center;
+            flex: 1;
+            padding: 0 40px;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat h3 {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--white), var(--gray-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat p {
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        /* ══════════════════════════════
+           PRICING
+        ══════════════════════════════ */
+        .pricing {
+            padding: 120px 80px;
+            background: var(--black);
+            text-align: center;
+        }
+
+        .pricing-cards {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 60px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: var(--dark2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 35px;
+            width: 290px;
+            text-align: left;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--blue);
+            background: linear-gradient(135deg, rgba(79,70,229,0.1) 0%, rgba(6,182,212,0.05) 100%);
+            box-shadow: 0 0 50px rgba(79,70,229,0.15);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 18px;
+            border-radius: 100px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .plan-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .plan-price {
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .plan-price sup {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--gray);
+            vertical-align: top;
+            margin-top: 10px;
+        }
+
+        .plan-period {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .plan-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 25px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .plan-features li {
+            font-size: 14px;
+            color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .check {
+            width: 18px;
+            height: 18px;
+            background: rgba(79,70,229,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #a5b4fc;
+            flex-shrink: 0;
+        }
+
+        /* ══════════════════════════════
+           TESTIMONIALS
+        ══════════════════════════════ */
+        .testimonials {
+            padding: 120px 80px;
+            background: var(--dark);
+            text-align: center;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background: var(--dark2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            width: 300px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(79,70,229,0.3);
+            transform: translateY(-5px);
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 14px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-card p {
+            font-size: 14px;
+            color: var(--gray-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reviewer-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(79,70,229,0.4);
+        }
+
+        .reviewer-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .reviewer-info p {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 0;
+            font-style: normal;
+        }
+
+        /* ══════════════════════════════
+           CTA
+        ══════════════════════════════ */
+        .cta {
+            padding: 120px 80px;
+            text-align: center;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-orb {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cta-content { position: relative; z-index: 2; }
+
+        .cta h2 {
+            font-size: 56px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .cta-note {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        /* ══════════════════════════════
+           FOOTER
+        ══════════════════════════════ */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        footer .logo { font-size: 20px; }
+        footer p { color: var(--gray); font-size: 13px; }
+        footer span { color: var(--blue-bright); }
+
+        /* ══════════════════════════════
+           ANIMATIONS
+        ══════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════ */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 42px; }
+            .features { padding: 60px 20px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .how { padding: 60px 20px; }
+            .how-inner { flex-direction: column; }
+            .stats { padding: 50px 20px; flex-wrap: wrap; }
+            .stat { border-right: none; padding: 20px; }
+            .pricing { padding: 60px 20px; }
+            .testimonials { padding: 60px 20px; }
+            .cta { padding: 60px 20px; }
+            .cta h2 { font-size: 36px; }
+            footer { flex-direction: column; text-align: center; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">Flow<span>Sync</span></div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Reviews</a>
+            <a href="#cta" class="nav-cta">Start Free →</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="badge-dot"></div>
+                New — AI-powered workflows just launched
+            </div>
+            <h1>Manage Your Team<br><span class="gradient-text">10x Faster</span></h1>
+            <p>FlowSync brings your projects, team, and data together in one powerful platform. Less chaos, more flow.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Start Free Trial →</button>
+                <button class="btn-secondary">▶ Watch Demo</button>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <div class="img-glow"></div>
+            <img class="dashboard-img"
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
+                alt="FlowSync Dashboard">
+        </div>
+    </section>
+
+    <!-- TRUSTED BY -->
+    <div class="trusted">
+        <p>Trusted by 10,000+ teams worldwide</p>
+        <div class="logos">
+            <div class="logo-item">Stripe</div>
+            <div class="logo-item">Notion</div>
+            <div class="logo-item">Figma</div>
+            <div class="logo-item">Vercel</div>
+            <div class="logo-item">Linear</div>
+            <div class="logo-item">Loom</div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="section-header reveal">
+            <div class="section-label">✦ Features</div>
+            <h2>Everything Your Team<br>Needs to Ship Faster</h2>
+            <p>Powerful tools that integrate seamlessly into your workflow without the complexity.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-time Collaboration</h3>
+                <p>Work together with your team in real-time. See changes instantly, no refresh needed.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Automation</h3>
+                <p>Automate repetitive tasks with smart AI. Let your team focus on what matters most.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📊</div>
+                <h3>Advanced Analytics</h3>
+                <p>Get deep insights into your team's performance with beautiful, actionable dashboards.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔒</div>
+                <h3>Enterprise Security</h3>
+                <p>Bank-grade encryption, SSO, and compliance tools to keep your data safe always.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔗</div>
+                <h3>100+ Integrations</h3>
+                <p>Connect with Slack, GitHub, Figma, Jira, and 100+ tools you already love.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Ready</h3>
+                <p>Manage your team from anywhere with our powerful iOS and Android apps.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how">
+        <div class="how-inner">
+            <div class="how-text reveal">
+                <div class="section-label">✦ How It Works</div>
+                <h2 style="font-size:42px;font-weight:800;letter-spacing:-1.5px;margin-bottom:15px;line-height:1.1;">
+                    Up and Running<br>in 3 Simple Steps
+                </h2>
+                <p style="color:var(--gray);font-size:15px;line-height:1.7;">No complex setup. No training needed. Just sign up and start shipping faster today.</p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h3>Create Your Workspace</h3>
+                            <p>Sign up in 30 seconds and invite your team. No credit card required.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h3>Connect Your Tools</h3>
+                            <p>Integrate with your existing stack in one click. We support 100+ apps.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h3>Ship 10x Faster</h3>
+                            <p>Watch your team's productivity soar with smart automation and real-time sync.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="how-image reveal">
+                <img class="how-img"
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+                    alt="How it works">
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat reveal"><h3>10K+</h3><p>Active Teams</p></div>
+        <div class="stat reveal"><h3>99.9%</h3><p>Uptime SLA</p></div>
+        <div class="stat reveal"><h3>4.9★</h3><p>Average Rating</p></div>
+        <div class="stat reveal"><h3>$2M+</h3><p>Saved in Productivity</p></div>
+    </div>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-header reveal">
+            <div class="section-label">✦ Pricing</div>
+            <h2>Simple, Transparent Pricing</h2>
+            <p>No hidden fees. Cancel anytime. Start free, upgrade when ready.</p>
+        </div>
+        <div class="pricing-cards">
+            <div class="pricing-card reveal">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price"><sup>$</sup>0</div>
+                <div class="plan-period">Free forever</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li><div class="check">✓</div> Up to 5 team members</li>
+                    <li><div class="check">✓</div> 3 active projects</li>
+                    <li><div class="check">✓</div> Basic analytics</li>
+                    <li><div class="check">✓</div> 5GB storage</li>
+                </ul>
+                <button class="btn-secondary" style="width:100%;padding:13px;border-radius:10px;">Get Started Free</button>
+            </div>
+            <div class="pricing-card featured reveal">
+                <div class="popular-badge">Most Popular</div>
+                <div class="plan-name">Pro</div>
+                <div class="plan-price"><sup>$</sup>29</div>
+                <div class="plan-period">per month / team</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li><div class="check">✓</div> Unlimited members</li>
+                    <li><div class="check">✓</div> Unlimited projects</li>
+                    <li><div class="check">✓</div> Advanced analytics</li>
+                    <li><div class="check">✓</div> AI automation</li>
+                    <li><div class="check">✓</div> 100GB storage</li>
+                    <li><div class="check">✓</div> Priority support</li>
+                </ul>
+                <button class="btn-primary" style="width:100%;padding:13px;border-radius:10px;">Start Free Trial</button>
+            </div>
+            <div class="pricing-card reveal">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price"><sup>$</sup>99</div>
+                <div class="plan-period">per month / team</div>
+                <div class="plan-divider"></div>
+                <ul class="plan-features">
+                    <li><div class="check">✓</div> Everything in Pro</li>
+                    <li><div class="check">✓</div> SSO & SAML</li>
+                    <li><div class="check">✓</div> Custom integrations</li>
+                    <li><div class="check">✓</div> Dedicated manager</li>
+                    <li><div class="check">✓</div> Unlimited storage</li>
+                    <li><div class="check">✓</div> SLA guarantee</li>
+                </ul>
+                <button class="btn-secondary" style="width:100%;padding:13px;border-radius:10px;">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header reveal">
+            <div class="section-label">✦ Reviews</div>
+            <h2>Loved by Teams Worldwide</h2>
+        </div>
+        <div class="testimonial-cards">
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"FlowSync completely transformed how our team works. We ship 3x faster than before and everyone is happier."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Reviewer">
+                    <div class="reviewer-info">
+                        <h4>Marcus Johnson</h4>
+                        <p>CTO at TechFlow</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"The AI automation alone saved us 20 hours per week. The ROI was clear within the first month of using it."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&q=80" alt="Reviewer">
+                    <div class="reviewer-info">
+                        <h4>Sarah Chen</h4>
+                        <p>Product Lead at Nova</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="stars">★★★★★</div>
+                <p>"Best investment we made this year. Our remote team finally feels connected and our delivery speed doubled."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Reviewer">
+                    <div class="reviewer-info">
+                        <h4>David Park</h4>
+                        <p>Founder at BuildLab</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="cta">
+        <div class="cta-orb"></div>
+        <div class="cta-content reveal">
+            <h2>Ready to <span style="background:linear-gradient(135deg,var(--blue-bright),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Flow?</span></h2>
+            <p>Join 10,000+ teams already using FlowSync. Start free, no credit card needed.</p>
+            <button class="btn-primary" style="font-size:16px;padding:18px 50px;">Start Free Trial →</button>
+            <div class="cta-note">✓ Free 14-day trial &nbsp; ✓ No credit card &nbsp; ✓ Cancel anytime</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="logo">Flow<span>Sync</span></div>
+        <p>&copy; 2026 FlowSync Inc. Built by <span>SADev Studio</span> 🇵🇰</p>
+        <p style="color:var(--gray)">Privacy · Terms · Support</p>
+    </footer>
+
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Nights - Event</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0010;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,0,16,0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(180,0,255,0.2);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: #b400ff;
+            letter-spacing: 3px;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: #b400ff; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a0030 0%, #0a0010 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(180,0,255,0.1) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+
+        .event-badge {
+            display: inline-block;
+            background: rgba(180,0,255,0.15);
+            border: 1px solid rgba(180,0,255,0.5);
+            color: #b400ff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            animation: fadeUp 0.8s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 72px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #b400ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero-date {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            animation: fadeUp 1.1s ease;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.5);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+            font-weight: 300;
+            animation: fadeUp 1.2s ease;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeUp 1.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #b400ff, #7000ff);
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(180,0,255,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(180,0,255,0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 14px 35px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #b400ff;
+            color: #b400ff;
+        }
+
+        /* COUNTDOWN */
+        .countdown {
+            background: rgba(180,0,255,0.05);
+            border-top: 1px solid rgba(180,0,255,0.2);
+            border-bottom: 1px solid rgba(180,0,255,0.2);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .countdown h3 {
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #b400ff;
+            margin-bottom: 30px;
+        }
+
+        .countdown-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-box {
+            background: rgba(180,0,255,0.1);
+            border: 1px solid rgba(180,0,255,0.3);
+            padding: 20px 30px;
+            border-radius: 8px;
+            min-width: 100px;
+        }
+
+        .countdown-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #b400ff;
+        }
+
+        .countdown-box p {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-top: 5px;
+        }
+
+        /* LINEUP */
+        .lineup {
+            padding: 100px 60px;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #b400ff;
+            margin-bottom: 15px;
+        }
+
+        .lineup h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            margin-bottom: 60px;
+        }
+
+        .artists {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .artist-card {
+            background: rgba(180,0,255,0.05);
+            border: 1px solid rgba(180,0,255,0.2);
+            padding: 30px;
+            border-radius: 8px;
+            width: 200px;
+            transition: all 0.3s;
+        }
+
+        .artist-card:hover {
+            border-color: #b400ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(180,0,255,0.2);
+        }
+
+        .artist-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b400ff, #7000ff);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .artist-card h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .artist-card p {
+            font-size: 12px;
+            color: #b400ff;
+            letter-spacing: 1px;
+        }
+
+        /* TICKETS */
+        .tickets {
+            padding: 100px 60px;
+            background: rgba(180,0,255,0.03);
+            text-align: center;
+        }
+
+        .tickets h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            margin-bottom: 60px;
+        }
+
+        .ticket-cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .ticket {
+            background: #0d0020;
+            border: 1px solid rgba(180,0,255,0.3);
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 250px;
+            transition: all 0.3s;
+        }
+
+        .ticket.featured {
+            border-color: #b400ff;
+            box-shadow: 0 0 30px rgba(180,0,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .ticket h3 {
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+
+        .ticket .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #b400ff;
+            margin-bottom: 25px;
+        }
+
+        .ticket ul {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .ticket ul li {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #050008;
+            border-top: 1px solid rgba(180,0,255,0.2);
+            padding: 30px 60px;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+        }
+
+        footer span { color: #b400ff; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 38px; }
+            .lineup { padding: 60px 20px; }
+            .tickets { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">NEON NIGHTS</div>
+        <div class="nav-links">
+            <a href="#">Lineup</a>
+            <a href="#">Tickets</a>
+            <a href="#">Venue</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="event-badge">✦ Annual Music Festival 2026</div>
+            <h1>Neon Nights<br>Festival</h1>
+            <div class="hero-date">📅 August 15, 2026 &nbsp;·&nbsp; 📍 Lahore, Pakistan</div>
+            <p>The biggest music festival of the year. Three stages, 12 artists, one unforgettable night.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Get Tickets</button>
+                <button class="btn-secondary">View Lineup</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="countdown">
+        <h3>✦ Event Starts In</h3>
+        <div class="countdown-boxes">
+            <div class="countdown-box">
+                <h2>32</h2>
+                <p>Days</p>
+            </div>
+            <div class="countdown-box">
+                <h2>14</h2>
+                <p>Hours</p>
+            </div>
+            <div class="countdown-box">
+                <h2>55</h2>
+                <p>Minutes</p>
+            </div>
+            <div class="countdown-box">
+                <h2>20</h2>
+                <p>Seconds</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="lineup">
+        <p class="section-label">✦ Featured Artists</p>
+        <h2>Who's Performing</h2>
+        <div class="artists">
+            <div class="artist-card">
+                <div class="artist-avatar">🎤</div>
+                <h3>DJ Nova</h3>
+                <p>Main Stage · 9PM</p>
+            </div>
+            <div class="artist-card">
+                <div class="artist-avatar">🎸</div>
+                <h3>The Echoes</h3>
+                <p>Stage 2 · 8PM</p>
+            </div>
+            <div class="artist-card">
+                <div class="artist-avatar">🎹</div>
+                <h3>Luna Ray</h3>
+                <p>Main Stage · 11PM</p>
+            </div>
+            <div class="artist-card">
+                <div class="artist-avatar">🎵</div>
+                <h3>Pulse</h3>
+                <p>Stage 3 · 7PM</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tickets">
+        <p class="section-label">✦ Get Your Pass</p>
+        <h2>Ticket Packages</h2>
+        <div class="ticket-cards">
+            <div class="ticket">
+                <h3>General</h3>
+                <div class="price">$25</div>
+                <ul>
+                    <li>General Entry</li>
+                    <li>All 3 Stages</li>
+                    <li>Food Court Access</li>
+                </ul>
+                <button class="btn-secondary" style="width:100%;padding:12px;">Buy Now</button>
+            </div>
+            <div class="ticket featured">
+                <h3>VIP</h3>
+                <div class="price">$75</div>
+                <ul>
+                    <li>VIP Entry</li>
+                    <li>Front Row Access</li>
+                    <li>Meet & Greet</li>
+                    <li>Free Drinks</li>
+                </ul>
+                <button class="btn-primary" style="width:100%;padding:12px;">Buy Now</button>
+            </div>
+            <div class="ticket">
+                <h3>Group</h3>
+                <div class="price">$80</div>
+                <ul>
+                    <li>4 General Passes</li>
+                    <li>All 3 Stages</li>
+                    <li>Group Lounge</li>
+                </ul>
+                <button class="btn-secondary" style="width:100%;padding:12px;">Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>✦ <span>Neon Nights Festival</span> 2026 · Lahore, Pakistan 🇵🇰 ✦</p>
+    </footer>
+
+</body>
+</html>

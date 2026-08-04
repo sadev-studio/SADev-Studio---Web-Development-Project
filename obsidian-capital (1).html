@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obsidian Capital — Institutional Digital Asset Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-alt:#111113;
+    --surface:#161618;
+    --surface-2:#1d1d20;
+    --rose:#b76e79;
+    --rose-light:#dba3ab;
+    --rose-dim:rgba(183,110,121,0.14);
+    --ivory:#f4f0ed;
+    --muted:#94908c;
+    --muted-dim:#66625f;
+    --line:rgba(244,240,237,0.09);
+    --success:#7ba98f;
+    --ease:cubic-bezier(.16,.84,.44,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--ivory);
+    font-family:'Inter',sans-serif;font-weight:400;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.serif{font-family:'Playfair Display',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{text-decoration:none;color:inherit;}
+  ul{list-style:none;}
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+  ::selection{background:var(--rose);color:#0a0a0b;}
+  button{font-family:inherit;}
+
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--rose-light);font-weight:600;display:inline-flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:'';width:26px;height:1px;background:var(--rose);display:inline-block;}
+
+  .gradient-text{
+    background:linear-gradient(100deg, var(--ivory) 20%, var(--rose-light) 55%, var(--rose) 80%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* glow orbs */
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.35;z-index:0;}
+
+  /* nav */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:26px 5vw;transition:all .5s var(--ease);border-bottom:1px solid transparent;
+  }
+  header.scrolled{padding:15px 5vw;background:rgba(10,10,11,.82);backdrop-filter:blur(16px);border-color:var(--line);}
+  .logo{font-family:'Playfair Display',serif;font-size:1.4rem;letter-spacing:.06em;display:flex;align-items:center;gap:10px;}
+  .logo .mark{width:30px;height:30px;border:1px solid var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:var(--rose-light);}
+  nav.links{display:flex;align-items:center;gap:40px;}
+  nav.links a{font-size:.82rem;letter-spacing:.03em;color:var(--muted);position:relative;padding-bottom:4px;transition:color .35s;}
+  nav.links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--rose);transition:width .4s var(--ease);}
+  nav.links a:hover{color:var(--ivory);}
+  nav.links a:hover::after{width:100%;}
+  .btn{
+    position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:10px;
+    padding:13px 28px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+    border:1px solid var(--rose);color:var(--ivory);background:transparent;cursor:pointer;
+    transition:color .5s var(--ease);
+  }
+  .btn::before{content:'';position:absolute;inset:0;background:var(--rose);transform:translateX(-101%);transition:transform .5s var(--ease);z-index:-1;}
+  .btn:hover{color:#0a0a0b;}
+  .btn:hover::before{transform:translateX(0);}
+  .btn-ghost{border-color:var(--line);}
+  .btn-ghost::before{background:var(--ivory);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:120;}
+  .burger span{width:24px;height:1px;background:var(--ivory);}
+
+  /* hero */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;}
+  .hero .bg{position:absolute;inset:0;z-index:0;background:linear-gradient(160deg,#1a1417,#0a0a0b);}
+  .hero .bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.13);animation:heroZoom 24s ease-out forwards;opacity:.5;}
+  @keyframes heroZoom{to{transform:scale(1);}}
+  .hero .overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,.35) 40%, rgba(10,10,11,.92) 100%);}
+  .hero-content{position:relative;z-index:2;padding:120px 5vw 0;max-width:880px;}
+  .hero-content .eyebrow{opacity:0;animation:riseIn .9s var(--ease) forwards .3s;}
+  .hero-content h1{font-size:clamp(2.5rem,6vw,5.2rem);line-height:1.06;margin:22px 0 24px;opacity:0;animation:riseIn 1s var(--ease) forwards .5s;}
+  .hero-content p{font-size:1.05rem;color:var(--muted);max-width:520px;margin-bottom:38px;line-height:1.75;opacity:0;animation:riseIn 1s var(--ease) forwards .7s;}
+  .hero-content .cta-row{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:riseIn 1s var(--ease) forwards .9s;}
+  @keyframes riseIn{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+
+  .hero-stats{
+    position:relative;z-index:2;display:flex;gap:0;margin-top:80px;padding:0 5vw;
+    opacity:0;animation:riseIn 1s var(--ease) forwards 1.1s;
+  }
+  .hero-stats .stat{flex:1;padding:22px 24px 30px;border-left:1px solid var(--line);}
+  .hero-stats .stat:first-child{border-left:none;}
+  .hero-stats .stat h3{font-size:2rem;color:var(--rose-light);}
+  .hero-stats .stat span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+  section{position:relative;padding:150px 5vw;z-index:1;}
+  .section-head{max-width:620px;margin-bottom:64px;}
+  .section-head h2{font-size:clamp(2rem,3.6vw,3rem);margin-top:18px;line-height:1.12;}
+  .section-head p{color:var(--muted);margin-top:18px;line-height:1.75;font-size:1rem;max-width:480px;}
+  .section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+  .section-head.center .eyebrow::before{display:none;}
+
+  .reveal{opacity:0;transform:translateY(46px);transition:opacity 1s var(--ease), transform 1s var(--ease);}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .reveal-d1.visible{transition-delay:.1s;}
+  .reveal-d2.visible{transition-delay:.2s;}
+  .reveal-d3.visible{transition-delay:.3s;}
+  .reveal-d4.visible{transition-delay:.4s;}
+
+  /* services */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .service-card{
+    background:var(--bg-alt);padding:44px 34px;transition:background .5s var(--ease);position:relative;overflow:hidden;
+  }
+  .service-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--rose);
+    transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);
+  }
+  .service-card:hover{background:var(--surface);}
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-icon{
+    width:52px;height:52px;border-radius:50%;border:1px solid var(--rose);
+    display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--rose-light);
+    margin-bottom:26px;transition:transform .5s var(--ease), background .5s;
+  }
+  .service-card:hover .service-icon{transform:scale(1.1) rotate(-8deg);background:var(--rose-dim);}
+  .service-card h3{font-size:1.3rem;margin-bottom:12px;}
+  .service-card p{color:var(--muted);font-size:.92rem;line-height:1.7;}
+  .service-card .num{position:absolute;top:30px;right:32px;font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--line);font-style:italic;}
+
+  /* about split */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--bg-alt);}
+  .about .frame{position:relative;aspect-ratio:4/5;overflow:hidden;}
+  .about .frame img{transition:transform 1.4s var(--ease);}
+  .about .frame:hover img{transform:scale(1.06);}
+  .about .frame::after{content:'';position:absolute;inset:14px;border:1px solid var(--rose);opacity:.5;pointer-events:none;}
+  .about .frame .badge{
+    position:absolute;bottom:26px;left:26px;background:rgba(10,10,11,.75);backdrop-filter:blur(10px);
+    border:1px solid var(--line);padding:16px 20px;border-radius:4px;
+  }
+  .about .frame .badge h4{font-size:1.6rem;color:var(--rose-light);}
+  .about .frame .badge span{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .about-text p.lead{font-size:1.1rem;line-height:1.85;color:var(--ivory);margin:22px 0 26px;font-family:'Playfair Display',serif;font-weight:400;font-style:italic;}
+  .about-text .points{display:flex;flex-direction:column;gap:16px;margin-top:28px;}
+  .about-point{display:flex;gap:14px;align-items:flex-start;}
+  .about-point .dot{width:6px;height:6px;border-radius:50%;background:var(--rose);margin-top:8px;flex-shrink:0;}
+  .about-point p{color:var(--muted);font-size:.93rem;line-height:1.6;}
+
+  /* team */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);}
+  .team-card{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--surface);}
+  .team-card img{filter:grayscale(60%) brightness(.85);transition:transform 1.1s var(--ease), filter .6s;}
+  .team-card:hover img{transform:scale(1.08);filter:grayscale(0%) brightness(1);}
+  .team-info{position:absolute;left:0;right:0;bottom:0;padding:24px;background:linear-gradient(0deg, rgba(10,10,11,.95), transparent);}
+  .team-info h4{font-size:1.1rem;}
+  .team-info span{font-size:.72rem;color:var(--rose-light);letter-spacing:.05em;text-transform:uppercase;}
+
+  /* testimonials */
+  .testimonials{background:radial-gradient(ellipse at top, rgba(183,110,121,.08), transparent 60%);}
+  .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .t-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:34px;
+    transition:border-color .4s, transform .4s var(--ease);
+  }
+  .t-card:hover{border-color:var(--rose);transform:translateY(-6px);}
+  .t-stars{color:var(--rose-light);font-size:.9rem;letter-spacing:2px;margin-bottom:18px;}
+  .t-card p{color:var(--ivory);font-size:.95rem;line-height:1.75;font-family:'Playfair Display',serif;font-style:italic;}
+  .t-who{display:flex;align-items:center;gap:14px;margin-top:26px;}
+  .t-who .photo{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+  .t-who h5{font-size:.88rem;}
+  .t-who span{font-size:.72rem;color:var(--muted);}
+
+  /* stats counter */
+  .stats-band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:90px 5vw;}
+  .stats-band-grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;}
+  .stats-band .stat h3{font-size:clamp(2.4rem,4vw,3.4rem);color:var(--rose-light);font-family:'Playfair Display',serif;}
+  .stats-band .stat span{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:8px;}
+
+  /* contact */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:80px;}
+  .contact-form{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:44px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  .field{display:flex;flex-direction:column;gap:8px;}
+  .field.full{grid-column:1/-1;}
+  .field label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .field input,.field textarea,.field select{
+    background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--ivory);
+    font-family:'Inter',sans-serif;font-size:.95rem;padding:10px 2px;transition:border-color .4s;resize:none;
+  }
+  .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--rose);}
+  .field select option{background:#161618;}
+  .contact-form .btn{width:100%;justify-content:center;margin-top:12px;}
+  .contact-info .info-row{display:flex;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);}
+  .contact-info .info-row .ic{width:40px;height:40px;border:1px solid var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--rose-light);}
+  .contact-info h4{font-size:.95rem;margin-bottom:4px;}
+  .contact-info p{color:var(--muted);font-size:.88rem;}
+
+  /* FAQ */
+  .faq-list{max-width:760px;margin:0 auto;}
+  .faq-item{border-bottom:1px solid var(--line);}
+  .faq-q{
+    display:flex;justify-content:space-between;align-items:center;padding:26px 4px;cursor:pointer;
+    font-size:1.05rem;font-family:'Playfair Display',serif;
+  }
+  .faq-q .plus{font-size:1.4rem;color:var(--rose-light);transition:transform .4s var(--ease);font-weight:300;}
+  .faq-item.open .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease);}
+  .faq-item.open .faq-a{max-height:200px;}
+  .faq-a p{color:var(--muted);font-size:.92rem;line-height:1.75;padding-bottom:26px;max-width:640px;}
+
+  /* footer */
+  footer{padding:90px 5vw 40px;background:var(--bg-alt);border-top:1px solid var(--line);}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:60px;padding-bottom:70px;}
+  .foot-grid h4{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rose-light);margin-bottom:22px;}
+  .foot-grid p,.foot-grid a{color:var(--muted);font-size:.9rem;line-height:2;display:block;transition:color .3s;}
+  .foot-grid a:hover{color:var(--ivory);}
+  .foot-logo{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:16px;}
+  .social{display:flex;gap:14px;margin-top:20px;}
+  .social a{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;transition:border-color .3s,color .3s;}
+  .social a:hover{border-color:var(--rose);color:var(--rose-light);}
+  .newsletter{display:flex;border-bottom:1px solid var(--line);margin-top:10px;}
+  .newsletter input{flex:1;background:transparent;border:none;padding:12px 0;color:var(--ivory);font-family:'Inter',sans-serif;}
+  .newsletter input:focus{outline:none;}
+  .newsletter button{background:none;border:none;color:var(--rose-light);cursor:pointer;font-size:1.1rem;}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:30px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem;flex-wrap:wrap;gap:10px;}
+  .risk-note{font-size:.72rem;color:var(--muted-dim);max-width:900px;margin:0 auto 40px;text-align:center;line-height:1.7;}
+
+  #totop{
+    position:fixed;right:28px;bottom:28px;z-index:60;width:46px;height:46px;border:1px solid var(--rose);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:var(--rose-light);opacity:0;pointer-events:none;transform:translateY(10px);
+    transition:opacity .4s,transform .4s;background:rgba(10,10,11,.6);backdrop-filter:blur(6px);cursor:pointer;
+  }
+  #totop.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+
+  @media(max-width:1000px){
+    nav.links{display:none;}
+    .burger{display:flex;}
+    .about,.contact{grid-template-columns:1fr;gap:50px;}
+    .services-grid{grid-template-columns:1fr 1fr;}
+    .team-grid{grid-template-columns:1fr 1fr;}
+    .t-grid{grid-template-columns:1fr;}
+    .stats-band-grid{grid-template-columns:1fr 1fr;gap:36px;}
+    .hero-stats{flex-wrap:wrap;}
+    .hero-stats .stat{flex:1 1 50%;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:600px){
+    section{padding:100px 6vw;}
+    .services-grid{grid-template-columns:1fr;}
+    .team-grid{grid-template-columns:1fr 1fr;}
+    .field-row{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;gap:36px;}
+  }
+  @media(prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="glow" style="width:600px;height:600px;background:var(--rose);top:-200px;left:-200px;"></div>
+<div class="glow" style="width:500px;height:500px;background:var(--rose);top:1400px;right:-150px;"></div>
+
+<header id="siteHeader">
+  <div class="logo"><span class="mark">◆</span>OBSIDIAN</div>
+  <nav class="links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#team">Team</a>
+    <a href="#testimonials">Clients</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="#contact" class="btn">Open an Account</a>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="bg">
+    <img src="https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&w=1800&q=80" alt="Digital asset trading floor at night" onerror="this.style.display='none'">
+  </div>
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <span class="eyebrow">Institutional Digital Asset Management</span>
+    <h1>Wealth, <em class="gradient-text" style="font-style:italic;">reimagined</em><br>for the on-chain era.</h1>
+    <p>Obsidian manages digital asset portfolios for family offices, funds, and private clients — combining institutional-grade custody with the discipline of century-old wealth management.</p>
+    <div class="cta-row">
+      <a href="#contact" class="btn">Open an Account</a>
+      <a href="#services" class="btn btn-ghost">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><h3 data-count="4.2" data-suffix="B+" data-decimal="1">0</h3><span>Assets Under Management</span></div>
+    <div class="stat"><h3 data-count="180" data-suffix="+">0</h3><span>Institutional Clients</span></div>
+    <div class="stat"><h3 data-count="27" data-suffix="">0</h3><span>Countries Served</span></div>
+    <div class="stat"><h3 data-count="99.98" data-suffix="%" data-decimal="2">0</h3><span>Custody Uptime</span></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-head reveal">
+    <span class="eyebrow">What We Do</span>
+    <h2>Four disciplines, one<br>fiduciary standard.</h2>
+    <p>Every service is built around a single principle: your capital deserves the same rigor as a two-hundred-year-old private bank — applied to a twenty-first-century asset class.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="num">01</span>
+      <div class="service-icon">◈</div>
+      <h3>Portfolio Management</h3>
+      <p>Actively managed digital asset portfolios built around your risk mandate, rebalanced systematically and reported transparently.</p>
+    </div>
+    <div class="service-card reveal reveal-d1">
+      <span class="num">02</span>
+      <div class="service-icon">◆</div>
+      <h3>Institutional Custody</h3>
+      <p>Multi-signature, geographically distributed cold storage with insurance coverage and quarterly proof-of-reserves audits.</p>
+    </div>
+    <div class="service-card reveal reveal-d2">
+      <span class="num">03</span>
+      <div class="service-icon">◇</div>
+      <h3>OTC Execution</h3>
+      <p>Deep liquidity for large block trades, executed off-market to minimize slippage and protect your entry and exit prices.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="num">04</span>
+      <div class="service-icon">◈</div>
+      <h3>Yield Strategies</h3>
+      <p>Risk-adjusted staking and lending programs vetted by our credit committee before a single basis point is deployed.</p>
+    </div>
+    <div class="service-card reveal reveal-d1">
+      <span class="num">05</span>
+      <div class="service-icon">◆</div>
+      <h3>Tax &amp; Reporting</h3>
+      <p>Jurisdiction-aware reporting built for family offices and funds — audit-ready, always, without the January scramble.</p>
+    </div>
+    <div class="service-card reveal reveal-d2">
+      <span class="num">06</span>
+      <div class="service-icon">◇</div>
+      <h3>Private Advisory</h3>
+      <p>Direct access to a dedicated advisor who understands both your balance sheet and the market structure behind it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="frame reveal">
+    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?auto=format&fit=crop&w=1200&q=80" alt="Obsidian Capital trading desk" onerror="this.style.display='none'">
+    <div class="badge"><h4>2016</h4><span>Founded</span></div>
+  </div>
+  <div class="about-text reveal reveal-d1">
+    <span class="eyebrow">Our Story</span>
+    <h2>Built by traders,<br>trusted by institutions.</h2>
+    <p class="lead">"We didn't set out to build a crypto company. We set out to build a wealth manager that happened to understand digital assets better than anyone else."</p>
+    <p style="color:var(--muted);line-height:1.8;">Founded in 2016 by a team of former derivatives traders and security engineers, Obsidian now safeguards capital for family offices, endowments, and funds across 27 countries.</p>
+    <div class="points">
+      <div class="about-point"><span class="dot"></span><p>SOC 2 Type II certified custody infrastructure, audited annually by an independent third party.</p></div>
+      <div class="about-point"><span class="dot"></span><p>No proprietary trading against client positions — ever. Your interests and ours are structurally aligned.</p></div>
+      <div class="about-point"><span class="dot"></span><p>Licensed and regulated across multiple jurisdictions, with a dedicated compliance desk on every account.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-head reveal">
+    <span class="eyebrow">Leadership</span>
+    <h2>The people behind the portfolio.</h2>
+    <p>A team that has traded through three market cycles — and reports to every client personally.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80" alt="Portrait of Marcus Feldt" onerror="this.style.display='none'">
+      <div class="team-info"><h4>Marcus Feldt</h4><span>Chief Executive Officer</span></div>
+    </div>
+    <div class="team-card reveal reveal-d1">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80" alt="Portrait of Elena Voss" onerror="this.style.display='none'">
+      <div class="team-info"><h4>Elena Voss</h4><span>Chief Investment Officer</span></div>
+    </div>
+    <div class="team-card reveal reveal-d2">
+      <img src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=600&q=80" alt="Portrait of David Okoro" onerror="this.style.display='none'">
+      <div class="team-info"><h4>David Okoro</h4><span>Head of Custody</span></div>
+    </div>
+    <div class="team-card reveal reveal-d3">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80" alt="Portrait of Priya Nandan" onerror="this.style.display='none'">
+      <div class="team-info"><h4>Priya Nandan</h4><span>Head of Compliance</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+    <span class="eyebrow" style="justify-content:center;">Client Trust</span>
+    <h2>What our clients say.</h2>
+  </div>
+  <div class="t-grid">
+    <div class="t-card reveal">
+      <div class="t-stars">★★★★★</div>
+      <p>"Obsidian reports like a private bank and executes like a trading desk. That combination simply doesn't exist elsewhere in this space."</p>
+      <div class="t-who">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Client photo" onerror="this.style.display='none'"></div>
+        <div><h5>Jonathan Reyes</h5><span>Family Office Principal</span></div>
+      </div>
+    </div>
+    <div class="t-card reveal reveal-d1">
+      <div class="t-stars">★★★★★</div>
+      <p>"The custody audits alone were worth switching for. Our board finally stopped asking uncomfortable questions about counterparty risk."</p>
+      <div class="t-who">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80" alt="Client photo" onerror="this.style.display='none'"></div>
+        <div><h5>Sarah Lindqvist</h5><span>Fund CFO</span></div>
+      </div>
+    </div>
+    <div class="t-card reveal reveal-d2">
+      <div class="t-stars">★★★★★</div>
+      <p>"OTC execution saved us more in slippage in one quarter than their entire fee. Our advisor picks up the phone every time."</p>
+      <div class="t-who">
+        <div class="photo"><img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?auto=format&fit=crop&w=200&q=80" alt="Client photo" onerror="this.style.display='none'"></div>
+        <div><h5>Michael Chen</h5><span>Endowment Trustee</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<section class="stats-band" style="padding-left:0;padding-right:0;">
+  <div class="stats-band-grid">
+    <div class="stat reveal"><h3 data-count="4.2" data-suffix="B+" data-decimal="1">0</h3><span>Assets Managed</span></div>
+    <div class="stat reveal reveal-d1"><h3 data-count="98" data-suffix="%">0</h3><span>Client Retention</span></div>
+    <div class="stat reveal reveal-d2"><h3 data-count="8" data-suffix="yrs">0</h3><span>Zero Security Breaches</span></div>
+    <div class="stat reveal reveal-d3"><h3 data-count="24" data-suffix="/7">0</h3><span>Desk Coverage</span></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="reveal">
+    <span class="eyebrow">Get Started</span>
+    <h2 style="margin-top:20px;">Speak with a<br>private advisor.</h2>
+    <p style="color:var(--muted);margin-top:22px;max-width:420px;line-height:1.8;">Minimum account size applies. All prospective clients undergo standard KYC and accreditation verification.</p>
+    <div class="contact-info" style="margin-top:36px;">
+      <div class="info-row"><div class="ic">✉</div><div><h4>Email</h4><p>advisory@obsidiancapital.com</p></div></div>
+      <div class="info-row"><div class="ic">☎</div><div><h4>Phone</h4><p>+1 (212) 555-0148</p></div></div>
+      <div class="info-row"><div class="ic">◎</div><div><h4>Headquarters</h4><p>One Liberty Plaza, New York, NY</p></div></div>
+    </div>
+  </div>
+  <form class="contact-form reveal reveal-d1" onsubmit="event.preventDefault(); this.querySelector('.btn').textContent='Request Received ✓';">
+    <div class="field-row">
+      <div class="field"><label>First name</label><input type="text" required></div>
+      <div class="field"><label>Last name</label><input type="text" required></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Email</label><input type="email" required></div>
+      <div class="field">
+        <label>Portfolio size</label>
+        <select><option>$100K – $1M</option><option>$1M – $10M</option><option>$10M+</option></select>
+      </div>
+    </div>
+    <div class="field full" style="margin-bottom:22px;">
+      <label>Message</label>
+      <textarea rows="3" placeholder="Tell us about your objectives..."></textarea>
+    </div>
+    <button type="submit" class="btn">Request Consultation</button>
+  </form>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
+    <span class="eyebrow" style="justify-content:center;">Questions</span>
+    <h2>Frequently asked.</h2>
+  </div>
+  <div class="faq-list reveal">
+    <div class="faq-item open">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What is the minimum account size?</span><span class="plus">+</span></div>
+      <div class="faq-a"><p>Our private client tier begins at $250,000. Institutional and fund accounts are structured individually — speak with an advisor for details.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How is custody secured?</span><span class="plus">+</span></div>
+      <div class="faq-a"><p>Assets are held in multi-signature cold storage across geographically distributed vaults, insured, and independently audited each quarter with public proof-of-reserves.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What fees does Obsidian charge?</span><span class="plus">+</span></div>
+      <div class="faq-a"><p>Management fees are tiered by AUM and disclosed in full before onboarding. There are no hidden spreads on OTC execution — pricing is quoted transparently, trade by trade.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Which jurisdictions do you operate in?</span><span class="plus">+</span></div>
+      <div class="faq-a"><p>Obsidian is licensed and regulated across multiple jurisdictions and currently serves clients in 27 countries. Availability varies by local regulation.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can I withdraw at any time?</span><span class="plus">+</span></div>
+      <div class="faq-a"><p>Yes. There are no lock-up periods on custody or managed portfolio assets outside of active yield strategies, which disclose terms upfront.</p></div>
+    </div>
+  </div>
+</section>
+
+<p class="risk-note reveal">Digital assets are volatile and involve risk of loss. Past performance is not indicative of future results. Obsidian Capital does not provide tax, legal, or investment advice; this page is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy any security or financial instrument.</p>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-logo">OBSIDIAN</div>
+      <p style="max-width:280px;">Institutional-grade digital asset management for family offices, funds, and private clients worldwide.</p>
+      <div class="social"><a href="#">X</a><a href="#">IN</a><a href="#">TG</a></div>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <a href="#about">About</a>
+      <a href="#team">Leadership</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <a href="#services">Portfolio Management</a>
+      <a href="#services">Custody</a>
+      <a href="#services">OTC Execution</a>
+      <a href="#services">Yield Strategies</a>
+    </div>
+    <div>
+      <h4>Stay Informed</h4>
+      <p>Market commentary, once a month. No noise.</p>
+      <div class="newsletter">
+        <input type="email" placeholder="Your email">
+        <button type="button">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Obsidian Capital. All rights reserved.</span>
+    <span>Privacy · Terms · Regulatory Disclosures</span>
+  </div>
+  <div style="text-align:center;margin-top:22px;color:var(--muted);font-size:.75rem;letter-spacing:.08em;">
+    Crafted by <span style="color:var(--rose-light);">SADev Studio</span>
+  </div>
+</footer>
+
+<div id="totop">↑</div>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  const totop = document.getElementById('totop');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+    totop.classList.toggle('show', window.scrollY > 700);
+  });
+  totop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  const counters = document.querySelectorAll('[data-count]');
+  const cIo = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseFloat(el.dataset.count);
+        const decimals = parseInt(el.dataset.decimal || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const steps = 50;
+        const increment = target / steps;
+        let count = 0;
+        const tick = () => {
+          count++;
+          current += increment;
+          if (count >= steps) { el.textContent = target.toFixed(decimals) + suffix; return; }
+          el.textContent = current.toFixed(decimals) + suffix;
+          requestAnimationFrame(tick);
+        };
+        tick();
+        cIo.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => cIo.observe(el));
+
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  const burger = document.getElementById('burger');
+  const navLinks = document.querySelector('nav.links');
+  burger.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.cssText = open
+      ? 'display:none;'
+      : 'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;flex-direction:column;align-items:center;justify-content:center;gap:32px;background:rgba(10,10,11,.97);z-index:110;';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    if (window.innerWidth <= 1000) navLinks.style.display = 'none';
+  }));
+</script>
+
+</body>
+</html>

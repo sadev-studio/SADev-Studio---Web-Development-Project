@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxEstate — Premium Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --black: #050a05;
+            --dark: #0a110a;
+            --dark2: #0f1a0f;
+            --dark3: #152015;
+            --green: #1a3a1a;
+            --green-mid: #2d5a2d;
+            --green-light: #3d7a3d;
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dark: #a08030;
+            --white: #f8f5f0;
+            --cream: #f0ead8;
+            --gray: #8a9a8a;
+            --gray-light: #b8c8b8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ══════════════════════════════
+           NAVBAR
+        ══════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 22px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5,10,5,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+            transition: all 0.3s;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--gold); }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        .btn-contact {
+            background: transparent;
+            color: var(--gold);
+            padding: 10px 24px;
+            border: 1px solid var(--gold);
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-contact:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* ══════════════════════════════
+           HERO
+        ══════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.3);
+            transform: scale(1.05);
+            animation: heroZoom 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            from { transform: scale(1.05); }
+            to { transform: scale(1.1); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(5,10,5,0.95) 35%, rgba(5,10,5,0.2) 100%);
+        }
+
+        .hero-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: linear-gradient(to top, var(--black), transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 80px;
+            max-width: 700px;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.4);
+            color: var(--gold);
+            padding: 7px 18px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 82px;
+            font-weight: 600;
+            line-height: 1.0;
+            letter-spacing: -1px;
+            margin-bottom: 25px;
+            color: var(--white);
+        }
+
+        .hero h1 span { color: var(--gold); }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--gray-light);
+            line-height: 1.8;
+            margin-bottom: 45px;
+            font-weight: 300;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--black);
+            padding: 16px 38px;
+            border: none;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 16px 38px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Hero stats */
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            color: var(--gold);
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .hero-stat p {
+            font-size: 11px;
+            color: var(--gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+
+        /* ══════════════════════════════
+           SEARCH BAR
+        ══════════════════════════════ */
+        .search-bar {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.15);
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+            padding: 30px 80px;
+            display: flex;
+            gap: 0;
+            align-items: center;
+        }
+
+        .search-tab {
+            padding: 12px 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: var(--gray);
+            transition: all 0.3s;
+        }
+
+        .search-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .search-inputs {
+            display: flex;
+            gap: 0;
+            flex: 1;
+            margin-left: 30px;
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.04);
+            border: none;
+            border-right: 1px solid rgba(201,168,76,0.15);
+            color: var(--white);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input::placeholder { color: var(--gray); }
+        .search-input:focus { outline: none; background: rgba(255,255,255,0.07); }
+
+        .search-select {
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.04);
+            border: none;
+            border-right: 1px solid rgba(201,168,76,0.15);
+            color: var(--gray);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        .search-select option { background: var(--dark2); }
+
+        .btn-search {
+            background: var(--gold);
+            color: var(--black);
+            padding: 14px 28px;
+            border: none;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+
+        .btn-search:hover { background: var(--gold-light); }
+
+        /* ══════════════════════════════
+           FEATURED PROPERTIES
+        ══════════════════════════════ */
+        .properties {
+            padding: 100px 80px;
+            background: var(--black);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            color: var(--white);
+        }
+
+        .view-all {
+            color: var(--gold);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 2px;
+            transition: opacity 0.3s;
+        }
+
+        .view-all:hover { opacity: 0.7; }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .property-card {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--dark2);
+            border: 1px solid rgba(201,168,76,0.1);
+            transition: all 0.4s;
+        }
+
+        .property-card:hover {
+            border-color: rgba(201,168,76,0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .property-card.large { grid-row: span 2; }
+
+        .property-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: brightness(0.85);
+            transition: all 0.4s;
+        }
+
+        .property-card.large .property-img { height: 520px; }
+
+        .property-card:hover .property-img {
+            filter: brightness(0.65);
+            transform: scale(1.03);
+        }
+
+        .property-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gold);
+            color: var(--black);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 2px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .property-tag.rent {
+            background: var(--green-mid);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .property-info {
+            padding: 20px;
+        }
+
+        .property-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .property-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .property-location {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .property-features {
+            display: flex;
+            gap: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(201,168,76,0.1);
+        }
+
+        .feature {
+            font-size: 12px;
+            color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ══════════════════════════════
+           STATS
+        ══════════════════════════════ */
+        .stats {
+            padding: 80px;
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.1);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .stat {
+            text-align: center;
+            flex: 1;
+            padding: 0 50px;
+            border-right: 1px solid rgba(201,168,76,0.15);
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 600;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat p {
+            font-size: 12px;
+            color: var(--gray);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* ══════════════════════════════
+           WHY US
+        ══════════════════════════════ */
+        .why {
+            padding: 100px 80px;
+            background: var(--black);
+            display: flex;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .why-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .why-img-main {
+            width: 100%;
+            height: 550px;
+            object-fit: cover;
+            border-radius: 4px;
+            filter: brightness(0.8);
+        }
+
+        .why-img-badge {
+            position: absolute;
+            bottom: -25px;
+            right: -25px;
+            width: 160px;
+            height: 160px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+
+        .why-img-badge h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--black);
+            line-height: 1;
+        }
+
+        .why-img-badge p {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .why-content { flex: 1; }
+
+        .why-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .why-content > p {
+            font-size: 15px;
+            color: var(--gray-light);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .why-points {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .why-point {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .point-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .point-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--white);
+        }
+
+        .point-content p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* ══════════════════════════════
+           TESTIMONIALS
+        ══════════════════════════════ */
+        .testimonials {
+            padding: 100px 80px;
+            background: var(--dark2);
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 600;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .testimonial-card {
+            background: var(--dark3);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 4px;
+            padding: 35px;
+            width: 320px;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(201,168,76,0.35);
+            transform: translateY(-5px);
+        }
+
+        .stars { color: var(--gold); font-size: 14px; margin-bottom: 20px; }
+
+        .testimonial-card p {
+            font-size: 15px;
+            color: var(--gray-light);
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .reviewer-img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(201,168,76,0.4);
+        }
+
+        .reviewer h4 { font-size: 15px; font-weight: 600; }
+        .reviewer span { font-size: 12px; color: var(--gray); }
+
+        /* ══════════════════════════════
+           CONTACT
+        ══════════════════════════════ */
+        .contact {
+            padding: 100px 80px;
+            background: var(--black);
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .contact-text { flex: 1; }
+
+        .contact-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .contact-text p {
+            font-size: 15px;
+            color: var(--gray-light);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(201,168,76,0.1);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .info-text h4 { font-size: 13px; color: var(--gold); font-weight: 600; margin-bottom: 2px; }
+        .info-text p { font-size: 14px; color: var(--gray-light); }
+
+        .contact-form { flex: 1; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 2px;
+            color: var(--white);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.3s;
+        }
+
+        .form-input::placeholder { color: var(--gray); }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(201,168,76,0.05);
+        }
+
+        textarea.form-input {
+            height: 130px;
+            resize: none;
+            grid-column: span 2;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+        }
+
+        .btn-submit:hover {
+            background: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        /* ══════════════════════════════
+           FOOTER
+        ══════════════════════════════ */
+        footer {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201,168,76,0.15);
+            padding: 60px 80px 30px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .footer-logo span { color: var(--gold); }
+
+        .footer-desc {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(201,168,76,0.1);
+            padding-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-bottom p { font-size: 12px; color: var(--gray); }
+        .footer-bottom span { color: var(--gold); }
+
+        /* ══════════════════════════════
+           ANIMATIONS
+        ══════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════ */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .hero-content { padding: 0 20px; }
+            .hero h1 { font-size: 42px; }
+            .search-bar { padding: 20px; flex-direction: column; }
+            .search-inputs { margin-left: 0; flex-direction: column; }
+            .properties { padding: 60px 20px; }
+            .property-grid { grid-template-columns: 1fr; }
+            .property-card.large .property-img { height: 250px; }
+            .stats { padding: 50px 20px; flex-wrap: wrap; }
+            .stat { border-right: none; padding: 20px; }
+            .why { padding: 60px 20px; flex-direction: column; }
+            .why-img-badge { display: none; }
+            .testimonials { padding: 60px 20px; }
+            .contact { padding: 60px 20px; flex-direction: column; }
+            .form-grid { grid-template-columns: 1fr; }
+            textarea.form-input { grid-column: span 1; }
+            footer { padding: 40px 20px 20px; }
+            .footer-top { grid-template-columns: 1fr; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">Lux<span>Estate</span></div>
+        <div class="nav-links">
+            <a href="#">Buy</a>
+            <a href="#">Rent</a>
+            <a href="#">Sell</a>
+            <a href="#">Agents</a>
+            <a href="#">About</a>
+        </div>
+        <button class="btn-contact">Contact Us</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-bottom"></div>
+        <div class="hero-content">
+            <div class="hero-badge">✦ Premium Real Estate</div>
+            <h1>Find Your<br><span>Dream</span><br>Property</h1>
+            <p>Discover exclusive luxury properties in Pakistan's most prestigious locations. Expert guidance for every step of your journey.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Explore Properties</button>
+                <button class="btn-secondary">Meet Our Agents</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <h3>500+</h3>
+                    <p>Properties</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>15yr</h3>
+                    <p>Experience</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>2K+</h3>
+                    <p>Happy Clients</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="search-bar">
+        <div style="display:flex;gap:0;">
+            <div class="search-tab active">Buy</div>
+            <div class="search-tab">Rent</div>
+            <div class="search-tab">Sell</div>
+        </div>
+        <div class="search-inputs">
+            <input class="search-input" type="text" placeholder="📍 Location — DHA, Bahria, Gulberg...">
+            <select class="search-select">
+                <option>Property Type</option>
+                <option>House</option>
+                <option>Apartment</option>
+                <option>Villa</option>
+                <option>Plot</option>
+                <option>Commercial</option>
+            </select>
+            <select class="search-select">
+                <option>Budget</option>
+                <option>Under 1 Crore</option>
+                <option>1-3 Crore</option>
+                <option>3-5 Crore</option>
+                <option>5 Crore+</option>
+            </select>
+            <button class="btn-search">Search →</button>
+        </div>
+    </div>
+
+    <!-- FEATURED PROPERTIES -->
+    <section class="properties">
+        <div class="section-header reveal">
+            <div>
+                <div class="section-label">✦ Featured Listings</div>
+                <h2>Premium Properties</h2>
+            </div>
+            <div class="view-all">View All Properties</div>
+        </div>
+        <div class="property-grid reveal">
+            <!-- Large Card -->
+            <div class="property-card large">
+                <img class="property-img" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Property">
+                <div class="property-tag">For Sale</div>
+                <div class="property-info">
+                    <div class="property-price">PKR 8.5 Crore</div>
+                    <div class="property-name">Luxury Villa — DHA Phase 6</div>
+                    <div class="property-location">📍 DHA, Lahore</div>
+                    <div class="property-features">
+                        <div class="feature">🛏 5 Beds</div>
+                        <div class="feature">🚿 4 Baths</div>
+                        <div class="feature">📐 1 Kanal</div>
+                        <div class="feature">🚗 2 Garage</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Small Cards -->
+            <div class="property-card">
+                <img class="property-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Property">
+                <div class="property-tag">For Sale</div>
+                <div class="property-info">
+                    <div class="property-price">PKR 3.2 Crore</div>
+                    <div class="property-name">Modern House — Bahria Town</div>
+                    <div class="property-location">📍 Bahria Town, Karachi</div>
+                    <div class="property-features">
+                        <div class="feature">🛏 4 Beds</div>
+                        <div class="feature">🚿 3 Baths</div>
+                        <div class="feature">📐 10 Marla</div>
+                    </div>
+                </div>
+            </div>
+            <div class="property-card">
+                <img class="property-img" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="Property">
+                <div class="property-tag rent">For Rent</div>
+                <div class="property-info">
+                    <div class="property-price">PKR 85,000/mo</div>
+                    <div class="property-name">Premium Apartment — Gulberg</div>
+                    <div class="property-location">📍 Gulberg III, Lahore</div>
+                    <div class="property-features">
+                        <div class="feature">🛏 3 Beds</div>
+                        <div class="feature">🚿 2 Baths</div>
+                        <div class="feature">📐 2000 sqft</div>
+                    </div>
+                </div>
+            </div>
+            <div class="property-card">
+                <img class="property-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80" alt="Property">
+                <div class="property-tag">For Sale</div>
+                <div class="property-info">
+                    <div class="property-price">PKR 5.8 Crore</div>
+                    <div class="property-name">Corner House — F-7 Islamabad</div>
+                    <div class="property-location">📍 F-7, Islamabad</div>
+                    <div class="property-features">
+                        <div class="feature">🛏 5 Beds</div>
+                        <div class="feature">🚿 4 Baths</div>
+                        <div class="feature">📐 1 Kanal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats reveal">
+        <div class="stat">
+            <h3>500+</h3>
+            <p>Properties Listed</p>
+        </div>
+        <div class="stat">
+            <h3>2,000+</h3>
+            <p>Happy Clients</p>
+        </div>
+        <div class="stat">
+            <h3>15yr</h3>
+            <p>Experience</p>
+        </div>
+        <div class="stat">
+            <h3>50+</h3>
+            <p>Expert Agents</p>
+        </div>
+    </div>
+
+    <!-- WHY US -->
+    <section class="why">
+        <div class="why-image reveal">
+            <img class="why-img-main" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80" alt="Why Us">
+            <div class="why-img-badge">
+                <h3>15+</h3>
+                <p>Years of<br>Excellence</p>
+            </div>
+        </div>
+        <div class="why-content reveal">
+            <div class="section-label">✦ Why Choose Us</div>
+            <h2>Pakistan's Most<br>Trusted Real Estate</h2>
+            <p>We bring together the finest properties and most experienced agents to help you find your perfect home or investment.</p>
+            <div class="why-points">
+                <div class="why-point">
+                    <div class="point-icon">🏆</div>
+                    <div class="point-content">
+                        <h3>Award-Winning Service</h3>
+                        <p>Recognized as Pakistan's #1 real estate agency for 5 consecutive years.</p>
+                    </div>
+                </div>
+                <div class="why-point">
+                    <div class="point-icon">🔐</div>
+                    <div class="point-content">
+                        <h3>100% Secure Transactions</h3>
+                        <p>Every deal is fully verified and legally secured for your complete peace of mind.</p>
+                    </div>
+                </div>
+                <div class="why-point">
+                    <div class="point-icon">💎</div>
+                    <div class="point-content">
+                        <h3>Exclusive Listings</h3>
+                        <p>Access properties not available anywhere else — our exclusive network of premium homes.</p>
+                    </div>
+                </div>
+                <div class="why-point">
+                    <div class="point-icon">🤝</div>
+                    <div class="point-content">
+                        <h3>Dedicated Agent Support</h3>
+                        <p>Your personal agent is available 24/7 to guide you through every step.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials reveal">
+        <div class="section-label">✦ Client Stories</div>
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-cards">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"LuxEstate found us our dream home in DHA in just 2 weeks. The entire process was smooth and completely transparent."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Client">
+                    <div>
+                        <h4>Ahmed Raza</h4>
+                        <span>Lahore, Pakistan</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"Sold my property at 15% above market value. The team's expertise and network is unmatched in Karachi."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&q=80" alt="Client">
+                    <div>
+                        <h4>Sana Malik</h4>
+                        <span>Karachi, Pakistan</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p>"As an overseas Pakistani, I was worried about investing. LuxEstate made everything simple, secure and stress-free."</p>
+                <div class="reviewer">
+                    <img class="reviewer-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Client">
+                    <div>
+                        <h4>Usman Khan</h4>
+                        <span>UK — Overseas Pakistani</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact">
+        <div class="contact-text reveal">
+            <div class="section-label">✦ Get In Touch</div>
+            <h2>Let's Find Your<br>Perfect Property</h2>
+            <p>Our expert agents are ready to help you find your dream home or the perfect investment opportunity.</p>
+            <div class="contact-info">
+                <div class="info-row">
+                    <div class="info-icon">📞</div>
+                    <div class="info-text">
+                        <h4>Call Us</h4>
+                        <p>+92 300 1234567</p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">📧</div>
+                    <div class="info-text">
+                        <h4>Email Us</h4>
+                        <p>info@luxestate.pk</p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">📍</div>
+                    <div class="info-text">
+                        <h4>Visit Us</h4>
+                        <p>25 Main Boulevard, Gulberg III, Lahore</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contact-form reveal">
+            <div class="form-grid">
+                <input class="form-input" type="text" placeholder="Your Name">
+                <input class="form-input" type="tel" placeholder="Phone Number">
+                <input class="form-input" type="email" placeholder="Email Address">
+                <select class="form-input">
+                    <option style="background:#0f1a0f">I want to...</option>
+                    <option style="background:#0f1a0f">Buy a Property</option>
+                    <option style="background:#0f1a0f">Rent a Property</option>
+                    <option style="background:#0f1a0f">Sell my Property</option>
+                    <option style="background:#0f1a0f">Get a Valuation</option>
+                </select>
+                <textarea class="form-input" placeholder="Tell us about your requirements..."></textarea>
+            </div>
+            <button class="btn-submit">Send Message ✦</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">Lux<span>Estate</span></div>
+                <div class="footer-desc">Pakistan's most trusted real estate agency. Finding dream properties since 2010.</div>
+                <div style="display:flex;gap:10px;">
+                    <div style="width:36px;height:36px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">f</div>
+                    <div style="width:36px;height:36px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">in</div>
+                    <div style="width:36px;height:36px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">ig</div>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Properties</h4>
+                <a href="#">Houses for Sale</a>
+                <a href="#">Apartments</a>
+                <a href="#">Villas</a>
+                <a href="#">Commercial</a>
+                <a href="#">Plots</a>
+            </div>
+            <div class="footer-col">
+                <h4>Locations</h4>
+                <a href="#">DHA Lahore</a>
+                <a href="#">Bahria Town</a>
+                <a href="#">Gulberg</a>
+                <a href="#">F-7 Islamabad</a>
+                <a href="#">Clifton Karachi</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">Our Agents</a>
+                <a href="#">Careers</a>
+                <a href="#">Blog</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LuxEstate Pakistan. Built by <span>SADev Studio</span> 🇵🇰</p>
+            <p style="color:var(--gray)">Lahore · Karachi · Islamabad</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        reveals.forEach(el => observer.observe(el));
+
+        // Search tabs
+        document.querySelectorAll('.search-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
